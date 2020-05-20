@@ -5,7 +5,7 @@ class Refresher {
   private oauth: OauthAuthorizer;
   private refresh: Function;
 
-  constructor(oauth, refresh) {
+  constructor(oauth: OauthAuthorizer, refresh: Function) {
     this.oauth = oauth
     this.refresh = refresh
   }

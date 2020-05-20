@@ -1,16 +1,17 @@
 import 'isomorphic-fetch'
 import { stringify } from 'qs'
 import * as S from 'string'
-import * as when from 'ramda/src/when'
-import * as not from 'ramda/src/not'
-import * as isNil from 'ramda/src/isNil'
-import * as compose from 'ramda/src/compose'
-import * as ifElse from 'ramda/src/ifElse'
-import * as concat from 'ramda/src/concat'
-import * as is from 'ramda/src/is'
-import * as identity from 'ramda/src/identity'
+// import * as when from 'ramda/src/when'
+// import * as not from 'ramda/src/not'
+// import * as isNil from 'ramda/src/isNil'
+// import * as compose from 'ramda/src/compose'
+// import * as ifElse from 'ramda/src/ifElse'
+// import * as concat from 'ramda/src/concat'
+// import * as is from 'ramda/src/is'
+import { when, not, isNil, compose, ifElse, concat, is } from "ramda"; // Splitting up imports introduces type errors. Will fix later.
 import { Authorizer } from './interfaces'
 import hostname from './hostname'
+
 
 export interface EndpointConfig {
   base: string;
@@ -31,6 +32,7 @@ interface SDKResponse {
   request: any;
 }
 
+//@ts-ignore - Getting an "expression is not callable" error. Weird, will fix later.
 const notNil = compose(
   not,
   isNil
@@ -47,7 +49,10 @@ const baseRequest = (defaults: RequestInit): Function => (url: string, config: R
     if (opts.headers instanceof Headers) {
       opts.headers.set(authKey, authValue)
     } else {
-      opts.headers[authKey] = authValue
+      if (opts.headers) {
+        // @ts-ignore Index signature. Will fix later.
+        opts.headers[authKey] = authValue
+      } 
     }
 
     const request = fetch(url, opts)
@@ -88,26 +93,32 @@ export class Client {
   public destroy = (endpoint: Endpoint, payload?: any): Promise<any> =>
     this.authorize(this.request(this.url(endpoint), { method: 'DELETE', body: JSON.stringify(payload)}))
 
+    
   private url = (endpoint: Endpoint): string => ifElse(
+    
     is(String),
+    
     concat(this.host),
     this.urlConfig
   )(endpoint)
+    
 
   private urlConfig = ({ base, action, params = {}, qs }: EndpointConfig): string => compose(
+    
     when(
       () => notNil(qs),
-      finalUrl => `${finalUrl}?${stringify(qs, { arrayFormat: 'brackets' })}`
+      (finalUrl: string) => `${finalUrl}?${stringify(qs, { arrayFormat: 'brackets' })}`
     ),
+    
     when(
       () => notNil(action),
-      resourceUrl => `${resourceUrl}/${action}`
+      (resourceUrl: string) => `${resourceUrl}/${action}`
     ),
     when(
       () => notNil(params.id),
-      collectionUrl => `${collectionUrl}/${params.id}`
+      (collectionUrl: string) => `${collectionUrl}/${params.id}`
     ),
-    (hostname) => `${hostname}${S(base).template(params, '{', '}').s}`
+    (hostname: string) => `${hostname}${S(base).template(params, '{', '}').s}`
   )(this.host)
 }
 

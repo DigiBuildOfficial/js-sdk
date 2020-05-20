@@ -2,7 +2,10 @@ import { Authorizer } from './interfaces'
 
 class Csrf implements Authorizer {
   public authorize(request: Function): Promise<any> {
-    return request(['X-CSRF-TOKEN', window.document.head.querySelector("[name=csrf-token]").getAttribute('content')])
+    let csrfToken = window.document.head.querySelector("[name=csrf-token]")
+
+    return csrfToken ? request(['X-CSRF-TOKEN', csrfToken.getAttribute('content')]) : null
+    
   }
 }
 
