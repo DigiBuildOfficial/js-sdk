@@ -5,7 +5,10 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "strict": true
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist",
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

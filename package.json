@@ -2,7 +2,8 @@
   "name": "@procore/js-sdk",
   "version": "2.3.1",
   "description": "A wrapper for the procore API",
-  "main": "lib",
+  "main": "dist/index.ts",
+  "types": "dist/index.d.ts",
   "homepage": "https://github.com/procore/js-sdk",
   "repository": {
     "type": "git",
@@ -11,8 +12,8 @@
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:watch": "mocha -r ts-node/register test/**/*.spec.ts -w --watch-extensions ts,tsx",
-    "watch": "tsc --watch",
-    "compile": "tsc",
+    "watch": "rm -rf dist/ && tsc --watch",
+    "compile": "rm -rf dist/ && tsc",
     "docs": "typedoc --includeDeclarations --excludeExternals --readme README.md --target es5 --out docs dist/*.ts",
     "endpoints": "node-procore-endpoints lib"
   },
