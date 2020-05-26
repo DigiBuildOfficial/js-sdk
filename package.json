@@ -15,6 +15,7 @@
     "test:watch": "mocha -r ts-node/register test/**/*.spec.ts -w --watch-extensions ts,tsx",
     "watch": "rm -rf dist/ && tsc --watch",
     "build": "rm -rf dist/ && tsc",
+    "postinstall": "tsc",
     "docs": "typedoc --includeDeclarations --excludeExternals --readme README.md --target es5 --out docs dist/*.ts",
     "endpoints": "node-procore-endpoints lib"
   },
