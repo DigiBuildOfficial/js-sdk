@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import { stringify } from 'qs'
-import * as S from 'string'
+import S from 'string'
 // import * as when from 'ramda/src/when'
 // import * as not from 'ramda/src/not'
 // import * as isNil from 'ramda/src/isNil'
