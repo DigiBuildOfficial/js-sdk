@@ -1,21 +1,17 @@
 {
-  "name": "@procore/js-sdk",
-  "version": "2.3.1",
-  "description": "A wrapper for the procore API",
+  "name": "@digibuildofficial/js-sdk",
+  "version": "2.3.3",
+  "description": "DigiBuild's fork of Procore's API SDK.",
   "main": "dist/index.ts",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/procore/js-sdk",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/procore/js-sdk.git"
-  },
+  "homepage": "https://github.com/DigiBuildOfficial/js-sdk",
+  "repository": "git://github.com/DigiBuildOfficial/js-sdk.git",
   "scripts": {
     "prepublish": "npm run build",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:watch": "mocha -r ts-node/register test/**/*.spec.ts -w --watch-extensions ts,tsx",
     "watch": "rm -rf dist/ && tsc --watch",
     "build": "rm -rf dist/ && tsc",
-    "postinstall": "tsc --module commonjs --target es6 --strict --noImplicitAny --noImplicitReturns --declaration --outDir dist --esModuleInterop --skipLibCheck lib/*.ts",
     "docs": "typedoc --includeDeclarations --excludeExternals --readme README.md --target es5 --out docs dist/*.ts",
     "endpoints": "node-procore-endpoints lib"
   },
